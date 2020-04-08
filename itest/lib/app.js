@@ -319,3 +319,25 @@ export const pcapIngestSample = async (app: Application) => {
     )
   )
 }
+
+const waitForClickableButtonAndClick = async (
+  app: Application,
+  selector: string
+) => {
+  await appStep(`wait for button {selector} to be visible`, () =>
+    app.client.waitForVisible(selector)
+  )
+
+  await appStep(`wait for button {selector} to be enabled`, () =>
+    retryUntil(
+      () => app.client.getAttribute(selectors.pcaps.button, "disabled"),
+      (isDisabled) => !isDisabled
+    )
+  )
+
+  await click(app, selector)
+}
+
+export const clickPcapButton = async (app: Application) => {
+  await waitForClickableButtonAndClick(app, selectors.pcaps.button)
+}
