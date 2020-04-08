@@ -275,6 +275,9 @@ export const waitUntilDownloadFinished = async (app: Application) =>
     )
   })
 
+export const pcapsDir = async (app: Application) =>
+  await app.electron.remote.app.getPath("temp")
+
 export const toggleOptimizations = async (app: Application) => {
   // Stateless toggle of optimizations. If you use this twice after reset
   // state, both will be back to their original state. This is only used to
