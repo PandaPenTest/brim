@@ -62,6 +62,14 @@ describe("Test PCAPs", () => {
           await searchDisplay(app)
           await click(app, selectors.viewer.resultCellContaining("ssl"))
           await clickPcapButton(app)
+          let downloadText = await waitUntilDownloadFinished(app)
+          expect(downloadText).toBe("Download Complete")
+          /*
+          const fileBasename = "packets-1582646593.996366.pcap"
+          let pcapAbspath = path.join(await pcapsDir(), fileBasename)
+          expect(md5(readFileSync(pcapAbspath))).toBe(
+            dataSets.corelight.pcaps.setDurationMD5
+          )*/
           done()
         })
         .catch((err) => {
