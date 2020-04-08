@@ -1,5 +1,7 @@
 /* @noflow */
-import {readdirSync, unlinkSync} from "fs"
+
+import {readFileSync, readdirSync, unlinkSync} from "fs"
+import md5 from "md5"
 import path from "path"
 
 import {LOG} from "../lib/log"
@@ -64,12 +66,11 @@ describe("Test PCAPs", () => {
           await clickPcapButton(app)
           let downloadText = await waitUntilDownloadFinished(app)
           expect(downloadText).toBe("Download Complete")
-          /*
           const fileBasename = "packets-1582646593.996366.pcap"
-          let pcapAbspath = path.join(await pcapsDir(), fileBasename)
+          let pcapAbspath = path.join(await pcapsDir(app), fileBasename)
           expect(md5(readFileSync(pcapAbspath))).toBe(
-            dataSets.corelight.pcaps.setDurationMD5
-          )*/
+            "888453c81738fd8ade4c7f9888d86f86"
+          )
           done()
         })
         .catch((err) => {
