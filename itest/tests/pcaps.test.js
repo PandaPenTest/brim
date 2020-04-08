@@ -54,40 +54,15 @@ describe("Test PCAPs", () => {
     }
   })
 
-  for (let i = 0; i < 5; i++) {
-    stdTest("foo " + i, (done) => {
-        done()
-    })
-  }
-
-  test.skip(
-    "Clicking on Download PCAPS from conn log entry downloads deterministically-formed PCAP file",
+  stdTest(
+    "pcap button downloads deterministically-formed pcap file",
     (done) => {
-      let downloadPcapFromConnTuple = async () => {
-        let program = "_path=conn duration!=null | sort -r ts, uid"
-        await logIn(app)
-        await writeSearch(app, program)
-        await startSearch(app)
-        await waitForSearch(app)
-
-        menu
-          .program(program)
-          .click(
-            "Download PCAPS",
-            dataSets.corelight.pcaps.setDurationUid,
-            dataSets.corelight.pcaps.setDurationConnLog
-          )
-
-        return await waitUntilDownloadFinished(app)
-      }
-      downloadPcapFromConnTuple()
-        .then((downloadText) => {
-          expect(downloadText).toBe("Download Complete")
-          let fileBasename = dataSets.corelight.pcaps.setDurationFilename
-          let pcapAbspath = path.join(pcapsDir(), fileBasename)
-          expect(md5(readFileSync(pcapAbspath))).toBe(
-            dataSets.corelight.pcaps.setDurationMD5
-          )
+      writeSearch(app, "_path=ssl id.orig_h=192.168.1.110 id.resp_h=209.216.230.240 id.resp_p=443")
+        .then(async () => {
+          await startSearch(app)
+          await searchDisplay(app)
+          let searchResults = await searchDisplay(app)
+          expect(searchResults).toMatchSnapshot()
           done()
         })
         .catch((err) => {
