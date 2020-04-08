@@ -45,7 +45,6 @@ describe("Test PCAPs", () => {
   })
 
   afterEach(async () => {
-    await clearPcaps(app)
     if (app && app.isRunning()) {
       return await app.stop()
     }
@@ -78,4 +77,26 @@ describe("Test PCAPs", () => {
         })
     }
   )
+
+  stdTest("pcap download works for null duration", (done) => {
+    writeSearch(app, "duration=null id.orig_p=47783")
+      .then(async () => {
+        await startSearch(app)
+        await waitForSearch(app)
+        await searchDisplay(app)
+        await click(app, selectors.viewer.resultCellContaining("conn"))
+        await clickPcapButton(app)
+        let downloadText = await waitUntilDownloadFinished(app)
+        expect(downloadText).toBe("Download Complete")
+        const fileBasename = "packets-1582646595.481957.pcap"
+        let pcapAbspath = path.join(await pcapsDir(app), fileBasename)
+        expect(md5(readFileSync(pcapAbspath))).toBe(
+          "776eb7feb6814711ed30548b0c672b2f"
+        )
+        done()
+      })
+      .catch((err) => {
+        handleError(app, err, done)
+      })
+  })
 })
