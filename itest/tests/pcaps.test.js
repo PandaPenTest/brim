@@ -61,8 +61,7 @@ describe("Test PCAPs", () => {
         .then(async () => {
           await startSearch(app)
           await searchDisplay(app)
-          let searchResults = await searchDisplay(app)
-          expect(searchResults).toMatchSnapshot()
+          await searchDisplay(app)
           done()
         })
         .catch((err) => {
