@@ -44,7 +44,7 @@ describe("Test PCAPs", () => {
     app = newAppInstance(path.basename(__filename), ++testIdx)
     await startApp(app)
     await clearPcaps(app)
-    //await pcapIngestSample(app)
+    await pcapIngestSample(app)
   })
 
   afterEach(async () => {
@@ -54,7 +54,7 @@ describe("Test PCAPs", () => {
     }
   })
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     stdTest("foo " + i, (done) => {
         done()
     })
