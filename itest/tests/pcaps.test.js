@@ -88,10 +88,10 @@ describe("Test PCAPs", () => {
         await clickPcapButton(app)
         let downloadText = await waitUntilDownloadFinished(app)
         expect(downloadText).toBe("Download Complete")
-        const fileBasename = "packets-1582646595.481957.pcap"
+        const fileBasename = "packets-1582646589.440467.pcap"
         let pcapAbspath = path.join(await pcapsDir(app), fileBasename)
         expect(md5(readFileSync(pcapAbspath))).toBe(
-          "776eb7feb6814711ed30548b0c672b2f"
+          "678442857027fdc5ad1e3418614dcdb8"
         )
         done()
       })
