@@ -324,11 +324,11 @@ const waitForClickableButtonAndClick = async (
   app: Application,
   selector: string
 ) => {
-  await appStep(`wait for button {selector} to be visible`, () =>
+  await appStep(`wait for button ${selector} to be visible`, () =>
     app.client.waitForVisible(selector)
   )
 
-  await appStep(`wait for button {selector} to be enabled`, () =>
+  await appStep(`wait for button ${selector} to be enabled`, () =>
     retryUntil(
       () => app.client.getAttribute(selectors.pcaps.button, "disabled"),
       (isDisabled) => !isDisabled
